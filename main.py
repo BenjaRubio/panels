@@ -2,31 +2,26 @@ from typing import List, Tuple, Dict
 import json
 
 
-def rotate_panel(panel_width: int, panel_height: int) -> Tuple[int, int]:
-    return panel_height, panel_width
-
 def fit_panel(panel_width: int, panel_height: int, 
                     roof_width: int, roof_height: int) -> int:
 
     count = 0
-    remaining_width = roof_width
     remaining_height = roof_height
     rotated = False
 
     while True:
       if remaining_height < panel_height:
         if not rotated:
-          panel_width, panel_height = rotate_panel(panel_width, panel_height)
+          panel_width, panel_height = panel_height, panel_width
           rotated = True
           continue
         else:
           break
       
       remaining_height -= panel_height
-      remaining_width = roof_width
-      while remaining_width >= panel_width:
-        remaining_width -= panel_width
-        count += 1
+
+      if roof_width >= panel_width:
+        count += roof_width // panel_width
 
     return count
 
@@ -34,9 +29,7 @@ def calculate_panels(panel_width: int, panel_height: int,
                     roof_width: int, roof_height: int) -> int:
     
     count = fit_panel(panel_width, panel_height, roof_width, roof_height)
-    rotation_count = fit_panel(*rotate_panel(panel_width, panel_height), roof_width, roof_height)
-
-    print(f"Count: {count}, Rotation count: {rotation_count}")
+    rotation_count = fit_panel(panel_height, panel_width, roof_width, roof_height)
 
     return max(count, rotation_count)
 
