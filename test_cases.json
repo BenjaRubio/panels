@@ -41,6 +41,13 @@
       "roofW": 8,
       "roofH": 5,
       "expected": 12
+    },
+    {
+      "panelW": 4,
+      "panelH": 3,
+      "roofW": 7,
+      "roofH": 10,
+      "expected": 5
     }
   ]
 }

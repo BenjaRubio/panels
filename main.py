@@ -6,24 +6,22 @@ def fit_panel(panel_width: int, panel_height: int,
                     roof_width: int, roof_height: int) -> int:
 
     count = 0
-    remaining_height = roof_height
-    rotated = False
 
-    while True:
-      if remaining_height < panel_height:
-        if not rotated:
-          panel_width, panel_height = panel_height, panel_width
-          rotated = True
-          continue
-        else:
-          break
-      
-      remaining_height -= panel_height
+    columns = roof_width // panel_width
+    rows = roof_height // panel_height
 
-      if roof_width >= panel_width:
-        count += roof_width // panel_width
+    count += columns * rows
 
-    return count
+    # rotate for remaining space
+    remaining_right_width = roof_width - columns * panel_width
+    remaining_right_height = roof_height
+    right_count = (remaining_right_width // panel_height) * (remaining_right_height // panel_width)
+
+    remaining_bottom_width = panel_width * columns
+    remaining_bottom_height = roof_height - panel_height * rows
+    bottom_count = (remaining_bottom_width // panel_height) * (remaining_bottom_height // panel_width)
+
+    return count + right_count + bottom_count
 
 def calculate_panels(panel_width: int, panel_height: int, 
                     roof_width: int, roof_height: int) -> int:
